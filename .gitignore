@@ -1,0 +1,14 @@
+*.egg-info
+__pycache__
+/dist
+/build
+/bin
+/lib
+/lib64
+/include
+/pip-selfcheck.json
+/pyvenv.cfg
+/htmlcov
+/.coverage
+/wheelhouse
+/debug.yaml
