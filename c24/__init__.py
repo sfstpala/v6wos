@@ -1,5 +1,8 @@
 import os
 import copy
+import uuid
+import functools
+import base64
 import collections
 import http.client
 import pkg_resources
@@ -16,6 +19,11 @@ import tornado.httpclient
 __version__ = pkg_resources.get_distribution(__package__).version
 
 
+def random_id(seed=None):
+    seed = seed or uuid.uuid4().bytes
+    return base64.urlsafe_b64encode(seed).decode().rstrip("=")
+
+
 class RequestHandler(tornado.web.RequestHandler):
 
     def set_default_headers(self):
@@ -27,11 +35,32 @@ class RequestHandler(tornado.web.RequestHandler):
 
     def prepare(self):
         super().prepare()
+        self.request.session_id = self.get_session_id()
+        self.request.dnt = self.request.headers.get("DNT", "0") == "1"
         path, query = (self.request.path or "/")[1:], self.request.query
         if path.endswith("/"):
             if self.request.method in ("GET", "HEAD", "OPTIONS"):
                 path = "/" + path[:-1] + (("?" + query) if query else "")
                 return self.redirect(path, permanent=True)
+
+    @functools.lru_cache()
+    def get_session_id(self):
+        cookie = self.get_secure_cookie("session-id") or None
+        cookie = (cookie or b"").decode("ascii", errors="replace") or None
+        cookie = (cookie or random_id())
+        self.set_secure_cookie("session-id", cookie)
+        return cookie
+
+    def set_secure_cookie(self, name, value):
+        expires_days = (
+            self.application.config["security"]["cookie-expiry"])
+        super().set_secure_cookie(name, value, expires_days=expires_days)
+
+    def get_secure_cookie(self, name, value=None):
+        max_age_days = (
+            self.application.config["security"]["cookie-expiry"]) + 1
+        return super().get_secure_cookie(
+            name, value, max_age_days=max_age_days)
 
     def get_template_namespace(self):
         self.ui = self.ui or {}
@@ -104,9 +133,9 @@ class Application(tornado.web.Application):
                 if k in dict(self.default_config)}
 
     def update_settings(self, config):
-        cookie_uuid = config["http"]["cookie-uuid"]
+        cookie_uuid = config["security"]["cookie-secret"]
         if cookie_uuid is None and not self.settings["debug"]:
-            raise RuntimeError("cookie-uuid must be set in production mode")
+            raise RuntimeError("cookie-secret must be set in production mode")
         self.settings["cookie_secret"] = cookie_uuid
 
 

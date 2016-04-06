@@ -24,7 +24,7 @@ class EntryPointTest(c24.tests.TestCase):
     @unittest.mock.patch("tornado.ioloop.IOLoop.current")
     def test_main(self, current, configure, load_config, run):
         load_config.return_value = copy.deepcopy(self.config)
-        load_config.return_value["http"]["cookie-uuid"] = "insecure"
+        load_config.return_value["security"]["cookie-secret"] = "insecure"
         run.side_effect = KeyboardInterrupt()
         self.assertEqual(self.main([]), 1)
         run.assert_called_once_with()
@@ -35,7 +35,7 @@ class EntryPointTest(c24.tests.TestCase):
     @unittest.mock.patch("tornado.ioloop.IOLoop.current")
     def test_main_invalid_settings(self, current, configure, load_config):
         load_config.return_value = copy.deepcopy(self.config)
-        load_config.return_value["http"]["cookie-uuid"] = None
+        load_config.return_value["security"]["cookie-secret"] = None
         self.assertEqual(self.main([]), 1)
 
     @unittest.mock.patch("builtins.print")

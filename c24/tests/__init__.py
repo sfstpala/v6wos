@@ -15,6 +15,7 @@ class TestCase(tornado.testing.AsyncHTTPTestCase,
     @unittest.mock.patch("c24.Application.load_config")
     def get_app(self, load_config):
         load_config.return_value = copy.deepcopy(self.config)
+        load_config.return_value["security"]["cookie-secret"] = "insecure"
         self.application = c24.Application(config=None, debug=True)
         return self.application
 
@@ -105,6 +106,7 @@ class HandlerTest(TestCase):
     @unittest.mock.patch("c24.Application.load_config")
     def get_app(self, load_config):
         load_config.return_value = self.config
+        load_config.return_value["security"]["cookie-secret"] = "insecure"
         self.application = TestApplication(config=None, debug=True)
         return self.application
 
@@ -120,3 +122,12 @@ class HandlerTest(TestCase):
         self.assertEqual(res.code, 301)
         res = self.fetch("/test/", method="PATCH", body=b"")
         self.assertEqual(res.code, 405)
+
+    def test_set_secure_cookie(self):
+        res = self.fetch("/test")
+        self.assertEqual(res.code, 204)
+        self.assertTrue("Set-Cookie" in res.headers)
+        cookie = res.headers["Set-Cookie"]
+        res = self.fetch("/test", headers={"Cookie": cookie})
+        self.assertEqual(res.code, 204)
+        self.assertEqual(cookie, res.headers["Set-Cookie"])

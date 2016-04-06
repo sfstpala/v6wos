@@ -55,6 +55,9 @@ class RequestHandler(c24.RequestHandler):
             raise tornado.web.Finish()
         return body
 
+    def get_session_id(self):
+        return None
+
     def check_xsrf_cookie(self):
         pass
 
