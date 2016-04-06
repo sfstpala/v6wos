@@ -2,6 +2,7 @@ import unittest
 import unittest.mock
 import sys
 import io
+import copy
 import os.path
 import logging
 import pkg_resources
@@ -18,13 +19,24 @@ class EntryPointTest(c24.tests.TestCase):
     main = staticmethod(dist.load_entry_point("console_scripts", "c24"))
 
     @unittest.mock.patch("c24.HTTPServer.run")
+    @unittest.mock.patch("c24.Application.load_config")
     @unittest.mock.patch("c24.__main__.configure_logging")
     @unittest.mock.patch("tornado.ioloop.IOLoop.current")
-    def test_main(self, current, configure, run):
+    def test_main(self, current, configure, load_config, run):
+        load_config.return_value = copy.deepcopy(self.config)
+        load_config.return_value["http"]["cookie-uuid"] = "insecure"
         run.side_effect = KeyboardInterrupt()
         self.assertEqual(self.main([]), 1)
         run.assert_called_once_with()
         configure.assert_called_once_with(False)
+
+    @unittest.mock.patch("c24.Application.load_config")
+    @unittest.mock.patch("c24.__main__.configure_logging")
+    @unittest.mock.patch("tornado.ioloop.IOLoop.current")
+    def test_main_invalid_settings(self, current, configure, load_config):
+        load_config.return_value = copy.deepcopy(self.config)
+        load_config.return_value["http"]["cookie-uuid"] = None
+        self.assertEqual(self.main([]), 1)
 
     @unittest.mock.patch("builtins.print")
     def test_invalid_argument(self, print):

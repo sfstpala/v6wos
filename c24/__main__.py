@@ -49,8 +49,12 @@ def main(args=None):
         print(str(e), file=sys.stderr)
         return 2
     configure_logging(args["--debug"])
-    application = c24.Application(
-        config=args["--config"], debug=args["--debug"])
+    try:
+        application = c24.Application(
+            config=args["--config"], debug=args["--debug"])
+    except RuntimeError as e:
+        tornado.log.app_log.error("Fatal: " + str(e))
+        return 1
     try:
         c24.HTTPServer(application).run()
     except KeyboardInterrupt:

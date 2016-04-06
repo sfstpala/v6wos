@@ -78,6 +78,7 @@ class Application(tornado.web.Application):
 
     def __init__(self, config, debug=False):
         super().__init__(self.handlers, debug=debug, **self.settings)
+        self.config_path = config
         self.config = self.load_config(config)
         self.update_settings(self.config)
 
@@ -89,21 +90,24 @@ class Application(tornado.web.Application):
                 else:
                     target[k] = update[k]
             return target
+        self.log.info("Loading " + (filename or "default configuration"))
         config = copy.deepcopy(self.default_config)
-        if filename is not None:
-            if os.path.exists(filename):
-                with open(filename) as f:
-                    update_recursive(config, yaml.load(f))
-            else:
-                with open(filename, "w") as f:
-                    f.write(yaml.dump(
-                        self.default_config, default_flow_style=False))
-            tornado.autoreload.watch(filename)
+        if os.path.exists(filename):
+            with open(filename) as f:
+                update_recursive(config, yaml.load(f))
+        else:
+            with open(filename, "w") as f:
+                f.write(yaml.dump(
+                    self.default_config, default_flow_style=False))
+        tornado.autoreload.watch(filename)
         return {k: v for k, v in config.items()
                 if k in dict(self.default_config)}
 
     def update_settings(self, config):
-        pass
+        cookie_uuid = config["http"]["cookie-uuid"]
+        if cookie_uuid is None and not self.settings["debug"]:
+            raise RuntimeError("cookie-uuid must be set in production mode")
+        self.settings["cookie_secret"] = cookie_uuid
 
 
 class HTTPServer(tornado.httpserver.HTTPServer):

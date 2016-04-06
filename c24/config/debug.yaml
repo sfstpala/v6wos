@@ -6,3 +6,4 @@ http:
   req-timeout: 120
   tcp-backlog: 1024
   x-forwarded: true
+  cookie-uuid: insecure
