@@ -1,3 +1,4 @@
+import c24
 import c24.tests.api
 
 

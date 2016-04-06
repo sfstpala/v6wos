@@ -1,10 +1,18 @@
 import unittest.mock
 import json
 import copy
+import concurrent.futures
 import pkg_resources
 import yaml
+import tornado.gen
 import tornado.testing
 import c24
+
+
+def future(result=None, exception=None):
+    f = concurrent.futures.Future()
+    f.set_result(result) if exception is None else f.set_exception(exception)
+    return f
 
 
 class TestCase(tornado.testing.AsyncHTTPTestCase,
@@ -81,6 +89,7 @@ class HTTPServerTest(TestCase):
 
 class TestHandler(c24.RequestHandler):
 
+    @tornado.gen.coroutine
     def get(self):
         if self.request.headers.get("X-Response-Body"):
             self.write(self.request.headers["X-Response-Body"])
@@ -131,3 +140,30 @@ class HandlerTest(TestCase):
         res = self.fetch("/test", headers={"Cookie": cookie})
         self.assertEqual(res.code, 204)
         self.assertEqual(cookie, res.headers["Set-Cookie"])
+
+    def test_get_http_client(self):
+        handler = c24.RequestHandler(self.application, unittest.mock.Mock())
+        self.assertIsInstance(
+            handler.get_http_client(), tornado.httpclient.AsyncHTTPClient)
+
+    @unittest.mock.patch("c24.RequestHandler.get_http_client")
+    @tornado.testing.gen_test
+    def test_fetch(self, get_http_client):
+        response = unittest.mock.Mock(code=200, body=b"{}")
+        http_client = get_http_client.return_value
+        http_client.fetch.return_value = future(response)
+        request = unittest.mock.Mock(
+            host="invalid", protocol="http", headers={
+                "Cookie": "123",
+                "DNT": "1",
+            })
+        handler = c24.RequestHandler(self.application, request)
+        res = yield handler.fetch("/test")
+        self.assertEqual(res, response)
+        self.assertEqual(res.json, {})
+        http_client.fetch.assert_called_once_with(
+            "http://invalid/test",
+            headers={
+                "Cookie": "123",
+                "DNT": "1",
+            }, raise_error=False)

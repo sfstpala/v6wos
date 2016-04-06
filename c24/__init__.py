@@ -1,6 +1,7 @@
 import os
 import copy
 import uuid
+import json
 import functools
 import base64
 import collections
@@ -71,6 +72,22 @@ class RequestHandler(tornado.web.RequestHandler):
             "version": __version__,
         })
         return namespace
+
+    def get_http_client(self):
+        return tornado.httpclient.AsyncHTTPClient()
+
+    @tornado.gen.coroutine
+    def fetch(self, path, **kwargs):
+        default_headers = ["Cookie", "DNT"]
+        kwargs["headers"] = kwargs.get("headers", {})
+        kwargs["headers"].update(
+            {k: self.request.headers.get(k) for k in default_headers})
+        kwargs["raise_error"] = kwargs.get("raise_error", False)
+        url = self.request.protocol + "://" + self.request.host
+        url = url + "/" + path.lstrip("/")
+        response = yield self.get_http_client().fetch(url, **kwargs)
+        response.json = json.loads((response.body or b"").decode())
+        return response
 
 
 class ErrorHandler(RequestHandler, tornado.web.ErrorHandler):
