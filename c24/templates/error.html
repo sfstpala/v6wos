@@ -2,4 +2,7 @@
 {% block title %}Error {{ status }} ({{ reason }}) - {% end block %}
 {% block main %}
 <h2>Error {{ status }} ({{ reason }})</h2>
+{% if debug and traceback %}
+<pre><code>{{ traceback }}</code></pre>
+{% end if %}
 {% end block %}

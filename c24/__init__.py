@@ -3,6 +3,7 @@ import copy
 import uuid
 import json
 import functools
+import traceback
 import base64
 import collections
 import http.client
@@ -30,9 +31,11 @@ class RequestHandler(tornado.web.RequestHandler):
     def set_default_headers(self):
         self.set_header("Server", "C24/" + __version__)
 
-    def write_error(self, status, reason=None, detail=None, **kwargs):
+    def write_error(self, status, reason=None, exc_info=None, **kwargs):
         reason = reason or http.client.responses.get(status)
-        self.render("error.html", status=status, reason=reason)
+        self.render(
+            "error.html", status=status, reason=reason, traceback="".join(
+                traceback.format_exception(*exc_info)) if exc_info else None)
 
     def prepare(self):
         super().prepare()
