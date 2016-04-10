@@ -139,6 +139,7 @@ class Application(tornado.web.Application):
                 else:
                     target[k] = update[k]
             return target
+        filename = os.path.abspath(filename) if filename is not None else None
         self.log.info("Loading " + (filename or "default configuration"))
         config = copy.deepcopy(self.default_config)
         if os.path.exists(filename):
