@@ -1,8 +1,8 @@
-import c24
-import c24.tests.api
+import xcvb
+import xcvb.tests.api
 
 
-class IndexHandlerTest(c24.tests.api.TestCase):
+class IndexHandlerTest(xcvb.tests.api.TestCase):
 
     def test_get(self):
         res = self.fetch("/api")

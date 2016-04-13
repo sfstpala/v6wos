@@ -1,7 +1,7 @@
-import c24.tests
+import xcvb.tests
 
 
-class ErrorHandlerTest(c24.tests.TestCase):
+class ErrorHandlerTest(xcvb.tests.TestCase):
 
     def test_get(self):
         res = self.fetch("/404")

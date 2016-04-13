@@ -2,13 +2,13 @@ import setuptools
 
 
 setuptools.setup(
-    name="c24", version="24.0.0",
+    name="xcvb", version="24.0.0",
     packages=setuptools.find_packages(),
     author="Stefano Palazzo",
     author_email="stefano.palazzo@gmail.com",
-    url="https://github.com/sfstpala/c24",
+    url="https://github.com/sfstpala/xcvb",
     license="ISC",
-    test_suite="c24.tests",
+    test_suite="xcvb.tests",
     zip_safe=False,
     install_requires=[
         "docopt==0.6.2",
@@ -18,11 +18,11 @@ setuptools.setup(
     ],
     entry_points={
         "console_scripts": [
-            "c24 = c24.__main__:main",
+            "xcvb = xcvb.__main__:main",
         ]
     },
     package_data={
-        "c24": [
+        "xcvb": [
             "config/local.yaml",
             "config/debug.yaml",
             "templates/index.html",

@@ -6,7 +6,7 @@ import pkg_resources
 import yaml
 import tornado.gen
 import tornado.testing
-import c24
+import xcvb
 
 
 def future(result=None, exception=None):
@@ -18,13 +18,13 @@ def future(result=None, exception=None):
 class TestCase(tornado.testing.AsyncHTTPTestCase,
                tornado.testing.LogTrapTestCase):
 
-    config = c24.Application.default_config
+    config = xcvb.Application.default_config
 
-    @unittest.mock.patch("c24.Application.load_config")
+    @unittest.mock.patch("xcvb.Application.load_config")
     def get_app(self, load_config):
         load_config.return_value = copy.deepcopy(self.config)
         load_config.return_value["security"]["cookie-secret"] = "insecure"
-        self.application = c24.Application(config=None, debug=True)
+        self.application = xcvb.Application(config=None, debug=True)
         return self.application
 
     def fetch(self, *args, **kwargs):
@@ -42,8 +42,8 @@ class DistributionTest(TestCase):
     dist = pkg_resources.get_distribution(__package__.split(".")[0])
 
     def test_version(self):
-        self.assertEqual(self.dist.version, c24.__version__)
-        self.assertRegex(c24.__version__, r"\d+\.\d+\.\d+")
+        self.assertEqual(self.dist.version, xcvb.__version__)
+        self.assertRegex(xcvb.__version__, r"\d+\.\d+\.\d+")
 
 
 class ApplicationTest(TestCase):
@@ -67,17 +67,17 @@ class HTTPServerTest(TestCase):
 
     @unittest.mock.patch("tornado.httpserver.HTTPServer.bind")
     def test_bind(self, bind):
-        server = c24.HTTPServer(self.application)
+        server = xcvb.HTTPServer(self.application)
         server.bind()
         bind.assert_called_once_with(
             self.application.config["bind"]["port"],
             address=self.application.config["bind"]["addr"],
             backlog=self.application.config["http"]["tcp-backlog"])
 
-    @unittest.mock.patch("c24.HTTPServer.bind")
-    @unittest.mock.patch("c24.HTTPServer.add_sockets")
+    @unittest.mock.patch("xcvb.HTTPServer.bind")
+    @unittest.mock.patch("xcvb.HTTPServer.add_sockets")
     def test_run(self, add_socket, bind):
-        server = c24.HTTPServer(self.application)
+        server = xcvb.HTTPServer(self.application)
         socket = unittest.mock.Mock()
         bind.side_effect = lambda: server._pending_sockets.append(socket)
         io_loop = unittest.mock.MagicMock()
@@ -87,7 +87,7 @@ class HTTPServerTest(TestCase):
         add_socket.assert_called_once_with([socket])
 
 
-class TestHandler(c24.RequestHandler):
+class TestHandler(xcvb.RequestHandler):
 
     @tornado.gen.coroutine
     def get(self):
@@ -103,7 +103,7 @@ class TestHandler(c24.RequestHandler):
         pass
 
 
-class TestApplication(c24.Application):
+class TestApplication(xcvb.Application):
 
     handlers = [
         (r".*", TestHandler),
@@ -112,7 +112,7 @@ class TestApplication(c24.Application):
 
 class HandlerTest(TestCase):
 
-    @unittest.mock.patch("c24.Application.load_config")
+    @unittest.mock.patch("xcvb.Application.load_config")
     def get_app(self, load_config):
         load_config.return_value = self.config
         load_config.return_value["security"]["cookie-secret"] = "insecure"
@@ -142,11 +142,11 @@ class HandlerTest(TestCase):
         self.assertEqual(cookie, res.headers["Set-Cookie"])
 
     def test_get_http_client(self):
-        handler = c24.RequestHandler(self.application, unittest.mock.Mock())
+        handler = xcvb.RequestHandler(self.application, unittest.mock.Mock())
         self.assertIsInstance(
             handler.get_http_client(), tornado.httpclient.AsyncHTTPClient)
 
-    @unittest.mock.patch("c24.RequestHandler.get_http_client")
+    @unittest.mock.patch("xcvb.RequestHandler.get_http_client")
     @tornado.testing.gen_test
     def test_fetch(self, get_http_client):
         response = unittest.mock.Mock(code=200, body=b"{}")
@@ -157,7 +157,7 @@ class HandlerTest(TestCase):
                 "Cookie": "123",
                 "DNT": "1",
             })
-        handler = c24.RequestHandler(self.application, request)
+        handler = xcvb.RequestHandler(self.application, request)
         res = yield handler.fetch("/test")
         self.assertEqual(res, response)
         self.assertEqual(res.json, {})

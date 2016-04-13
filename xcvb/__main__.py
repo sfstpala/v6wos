@@ -1,7 +1,7 @@
 '''
 Usage:
-    c24 [--config=<config>] [--debug]
-    c24 (--help | --version)
+    xcvb [--config=<config>] [--debug]
+    xcvb (--help | --version)
 
 Options:
     --config=<config>  configuration file (*.yaml)
@@ -13,7 +13,7 @@ import sys
 import logging
 import docopt
 import tornado.log
-import c24
+import xcvb
 
 
 class LogFormatter(tornado.log.LogFormatter):
@@ -44,19 +44,19 @@ def configure_logging(debug=False, stdout=None, stderr=None):
 def main(args=None):
     try:
         args = args if args is not None else sys.argv[1:]
-        args = docopt.docopt(__doc__, argv=args, version=c24.__version__)
+        args = docopt.docopt(__doc__, argv=args, version=xcvb.__version__)
     except docopt.DocoptExit as e:
         print(str(e), file=sys.stderr)
         return 2
     configure_logging(args["--debug"])
     try:
-        application = c24.Application(
+        application = xcvb.Application(
             config=args["--config"], debug=args["--debug"])
     except RuntimeError as e:
         tornado.log.app_log.error("Fatal: " + str(e))
         return 1
     try:
-        c24.HTTPServer(application).run()
+        xcvb.HTTPServer(application).run()
     except KeyboardInterrupt:
         return 1
 

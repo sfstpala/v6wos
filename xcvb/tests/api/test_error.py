@@ -1,7 +1,7 @@
-import c24.tests.api
+import xcvb.tests.api
 
 
-class ErrorHandlerTest(c24.tests.api.TestCase):
+class ErrorHandlerTest(xcvb.tests.api.TestCase):
 
     def test_get(self):
         res = self.fetch("/api/404")

@@ -1,7 +1,7 @@
-import c24.tests
+import xcvb.tests
 
 
-class IndexHandlerTest(c24.tests.TestCase):
+class IndexHandlerTest(xcvb.tests.TestCase):
 
     def test_get(self):
         res = self.fetch("/")

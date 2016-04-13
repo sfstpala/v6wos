@@ -3,7 +3,7 @@ import json
 import functools
 import tornado.web
 import jsonschema
-import c24
+import xcvb
 
 
 def schema(input_schema):
@@ -22,7 +22,7 @@ def schema(input_schema):
     return decorator
 
 
-class RequestHandler(c24.RequestHandler):
+class RequestHandler(xcvb.RequestHandler):
 
     def write(self, obj):
         if isinstance(obj, dict):
@@ -62,6 +62,6 @@ class RequestHandler(c24.RequestHandler):
         pass
 
 
-class ErrorHandler(RequestHandler, c24.ErrorHandler):
+class ErrorHandler(RequestHandler, xcvb.ErrorHandler):
 
     pass

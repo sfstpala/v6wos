@@ -1,7 +1,7 @@
-import c24
+import xcvb.api
 
 
-class ErrorHandler(c24.ErrorHandler):
+class ErrorHandler(xcvb.api.ErrorHandler):
 
     def initialize(self):
         super().initialize(404)

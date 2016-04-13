@@ -29,7 +29,7 @@ def random_id(seed=None):
 class RequestHandler(tornado.web.RequestHandler):
 
     def set_default_headers(self):
-        self.set_header("Server", "C24/" + __version__)
+        self.set_header("Server", "xcvb/" + __version__)
 
     def write_error(self, status, reason=None, exc_info=None, **kwargs):
         reason = reason or http.client.responses.get(status)
@@ -102,27 +102,27 @@ class Application(tornado.web.Application):
 
     handlers = [
         (r"/?", tornado.util.import_object(
-            "c24.index.IndexHandler")),
+            "xcvb.index.IndexHandler")),
         (r"/api/?", tornado.util.import_object(
-            "c24.api.index.IndexHandler")),
+            "xcvb.api.index.IndexHandler")),
         (r"/api/.*?", tornado.util.import_object(
-            "c24.api.error.ErrorHandler")),
+            "xcvb.api.error.ErrorHandler")),
         (r".*", tornado.util.import_object(
-            "c24.error.ErrorHandler")),
+            "xcvb.error.ErrorHandler")),
     ]
 
     log = tornado.log.app_log
 
     settings = {
         "template_path": pkg_resources.resource_filename(
-            "c24", "templates"),
+            "xcvb", "templates"),
         "static_path": pkg_resources.resource_filename(
-            "c24", "static"),
+            "xcvb", "static"),
         "xsrf_cookies": True,
     }
 
     with open(pkg_resources.resource_filename(
-            "c24", "config/local.yaml")) as f:
+            "xcvb", "config/local.yaml")) as f:
         default_config = yaml.load(f)
 
     def __init__(self, config, debug=False):

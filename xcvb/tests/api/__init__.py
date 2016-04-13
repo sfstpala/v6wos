@@ -1,10 +1,10 @@
 import unittest.mock
 import json
-import c24.tests
-import c24.api
+import xcvb.tests
+import xcvb.api
 
 
-class TestCase(c24.tests.TestCase):
+class TestCase(xcvb.tests.TestCase):
 
     def fetch(self, *args, **kwargs):
         response = super().fetch(*args, **kwargs)
@@ -15,9 +15,9 @@ class TestCase(c24.tests.TestCase):
         return response
 
 
-class TestHandler(c24.api.RequestHandler):
+class TestHandler(xcvb.api.RequestHandler):
 
-    @c24.api.schema({
+    @xcvb.api.schema({
         "type": "object",
         "properties": {
             "test": {
@@ -32,7 +32,7 @@ class TestHandler(c24.api.RequestHandler):
         self.write(b"")
 
 
-class TestApplication(c24.Application):
+class TestApplication(xcvb.Application):
 
     handlers = [
         (r".*", TestHandler),
@@ -41,7 +41,7 @@ class TestApplication(c24.Application):
 
 class HandlerTest(TestCase):
 
-    @unittest.mock.patch("c24.Application.load_config")
+    @unittest.mock.patch("xcvb.Application.load_config")
     def get_app(self, load_config):
         load_config.return_value = self.config
         self.application = TestApplication(config=None, debug=True)

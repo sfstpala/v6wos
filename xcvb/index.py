@@ -1,7 +1,7 @@
-import c24
+import xcvb
 
 
-class IndexHandler(c24.RequestHandler):
+class IndexHandler(xcvb.RequestHandler):
 
     def get(self):
         self.render("index.html")

@@ -1,7 +1,7 @@
 [run]
 branch = True
 source =
-    c24
+    xcvb
     setup.py
 
 [report]

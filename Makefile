@@ -1,5 +1,5 @@
 python ?= python3.5
-package = c24
+package = xcvb
 
 all: $(package).egg-info
 $(package).egg-info: setup.py bin/pip
@@ -29,7 +29,7 @@ bin/rst2xml.py: bin/pip
 debug: all debug.yaml
 	bin/$(package) --debug --config=debug.yaml
 debug.yaml:
-	cp c24/config/debug.yaml .
+	cp xcvb/config/debug.yaml .
 
 clean:
 	rm -rf *.egg-info $(shell find $(package) -name "__pycache__")
