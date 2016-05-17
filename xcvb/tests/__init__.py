@@ -23,7 +23,7 @@ class TestCase(tornado.testing.AsyncHTTPTestCase,
     @unittest.mock.patch("xcvb.Application.load_config")
     def get_app(self, load_config):
         load_config.return_value = copy.deepcopy(self.config)
-        load_config.return_value["security"]["cookie-secret"] = "insecure"
+        load_config.return_value["security"]["cookie-secret"] = None
         self.application = xcvb.Application(config=None, debug=True)
         return self.application
 

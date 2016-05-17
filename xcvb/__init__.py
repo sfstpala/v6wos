@@ -142,10 +142,10 @@ class Application(tornado.web.Application):
         filename = os.path.abspath(filename) if filename is not None else None
         self.log.info("Loading " + (filename or "default configuration"))
         config = copy.deepcopy(self.default_config)
-        if os.path.exists(filename):
+        if filename is not None and os.path.exists(filename):
             with open(filename) as f:
                 update_recursive(config, yaml.load(f))
-        else:
+        elif filename is not None:
             with open(filename, "w") as f:
                 f.write(yaml.dump(
                     self.default_config, default_flow_style=False))
@@ -155,8 +155,9 @@ class Application(tornado.web.Application):
 
     def update_settings(self, config):
         cookie_uuid = config["security"]["cookie-secret"]
-        if cookie_uuid is None and not self.settings["debug"]:
-            raise RuntimeError("cookie-secret must be set in production mode")
+        if cookie_uuid is None:
+            cookie_uuid = uuid.uuid4().hex
+            self.log.warning("Using random cookie-secret: " + cookie_uuid)
         self.settings["cookie_secret"] = cookie_uuid
 
 
