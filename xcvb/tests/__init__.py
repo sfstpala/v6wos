@@ -49,7 +49,7 @@ class DistributionTest(TestCase):
 class ApplicationTest(TestCase):
 
     @unittest.mock.patch("os.path.exists")
-    def test_read_config(self, exists):
+    def test_load_config(self, exists):
         exists.return_value = True
         read_data = yaml.dump(self.config)
         mock_open = unittest.mock.mock_open(read_data=read_data)

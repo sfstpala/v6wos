@@ -145,7 +145,7 @@ class Application(tornado.web.Application):
         if filename is not None and os.path.exists(filename):
             with open(filename) as f:
                 update_recursive(config, yaml.load(f))
-        elif filename is not None:
+        if filename is not None and not os.path.exists(filename):
             with open(filename, "w") as f:
                 f.write(yaml.dump(
                     self.default_config, default_flow_style=False))

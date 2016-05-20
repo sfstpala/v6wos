@@ -30,14 +30,6 @@ class EntryPointTest(xcvb.tests.TestCase):
         run.assert_called_once_with()
         configure.assert_called_once_with(False)
 
-    @unittest.mock.patch("xcvb.Application.load_config")
-    @unittest.mock.patch("xcvb.__main__.configure_logging")
-    @unittest.mock.patch("tornado.ioloop.IOLoop.current")
-    def test_main_invalid_settings(self, current, configure, load_config):
-        load_config.return_value = copy.deepcopy(self.config)
-        load_config.return_value["security"]["cookie-secret"] = None
-        self.assertEqual(self.main([]), 1)
-
     @unittest.mock.patch("builtins.print")
     def test_invalid_argument(self, print):
         self.assertEqual(self.main(["--invalid-argument"]), 2)

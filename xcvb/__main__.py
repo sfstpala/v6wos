@@ -49,12 +49,8 @@ def main(args=None):
         print(str(e), file=sys.stderr)
         return 2
     configure_logging(args["--debug"])
-    try:
-        application = xcvb.Application(
-            config=args["--config"], debug=args["--debug"])
-    except RuntimeError as e:
-        tornado.log.app_log.error("Fatal: " + str(e))
-        return 1
+    application = xcvb.Application(
+        config=args["--config"], debug=args["--debug"])
     try:
         xcvb.HTTPServer(application).run()
     except KeyboardInterrupt:
