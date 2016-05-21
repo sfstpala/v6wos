@@ -81,15 +81,19 @@ class RequestHandler(tornado.web.RequestHandler):
 
     @tornado.gen.coroutine
     def fetch(self, path, **kwargs):
+        hostname = self.application.config["internal"]["hostname"]
         default_headers = ["Cookie", "DNT"]
         kwargs["headers"] = kwargs.get("headers", {})
         kwargs["headers"].update(
             {k: self.request.headers.get(k) for k in default_headers})
         kwargs["raise_error"] = kwargs.get("raise_error", False)
-        url = self.request.protocol + "://" + self.request.host
+        url = self.request.protocol + "://" + (hostname or self.request.host)
         url = url + "/" + path.lstrip("/")
         response = yield self.get_http_client().fetch(url, **kwargs)
-        response.json = json.loads((response.body or b"").decode())
+        try:
+            response.json = json.loads((response.body or b"").decode())
+        except json.decoder.JSONDecodeError:
+            response.json = None
         return response
 
 

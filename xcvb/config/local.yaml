@@ -9,3 +9,5 @@ http:
 security:
   cookie-secret: null
   cookie-expiry: 30
+internal:
+  hostname: null

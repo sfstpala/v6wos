@@ -167,3 +167,8 @@ class HandlerTest(TestCase):
                 "Cookie": "123",
                 "DNT": "1",
             }, raise_error=False)
+        response = unittest.mock.Mock(code=200, body=b"")
+        http_client.fetch.return_value = future(response)
+        res = yield handler.fetch("/test")
+        self.assertEqual(res, response)
+        self.assertEqual(res.json, None)
