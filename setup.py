@@ -28,6 +28,7 @@ setuptools.setup(
             "templates/index.html",
             "templates/error.html",
             "static/css/index.css",
+            "static/script/env.js",
         ],
     },
 )
