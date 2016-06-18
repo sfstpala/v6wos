@@ -44,6 +44,7 @@ class HandlerTest(TestCase):
     @unittest.mock.patch("xcvb.Application.load_config")
     def get_app(self, load_config):
         load_config.return_value = self.config
+        load_config.return_value["database"]["postgres"] = "sqlite:///:memory:"
         self.application = TestApplication(config=None, debug=True)
         return self.application
 

@@ -20,10 +20,18 @@ class TestCase(tornado.testing.AsyncHTTPTestCase,
 
     config = xcvb.Application.default_config
 
+    def setUp(self):
+        super().setUp()
+        connection = xcvb.orm.Model.engine.connect()
+        for row in connection.execute(
+                "SELECT name FROM sqlite_master WHERE type = 'table'"):
+            connection.execute("DELETE FROM " + row.name)
+
     @unittest.mock.patch("xcvb.Application.load_config")
     def get_app(self, load_config):
         load_config.return_value = copy.deepcopy(self.config)
         load_config.return_value["security"]["cookie-secret"] = None
+        load_config.return_value["database"]["postgres"] = "sqlite:///:memory:"
         self.application = xcvb.Application(config=None, debug=True)
         return self.application
 

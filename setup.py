@@ -16,6 +16,7 @@ setuptools.setup(
         "pyyaml==3.11",
         "jsonschema==2.5.1",
         "requests==2.10.0",
+        "sqlalchemy==1.1.0b1",
     ],
     entry_points={
         "console_scripts": [

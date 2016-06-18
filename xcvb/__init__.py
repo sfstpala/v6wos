@@ -16,6 +16,10 @@ import tornado.util
 import tornado.autoreload
 import tornado.httpserver
 import tornado.httpclient
+import sqlalchemy
+import sqlalchemy.orm
+import xcvb.orm
+import xcvb.orm.session
 
 
 __version__ = pkg_resources.get_distribution(__package__).version
@@ -39,7 +43,8 @@ class RequestHandler(tornado.web.RequestHandler):
 
     def prepare(self):
         super().prepare()
-        self.request.session_id = self.get_session_id()
+        self.orm = self.prepare_orm()
+        self.request.session = self.prepare_session(self.orm)
         self.request.dnt = self.request.headers.get("DNT", "0") == "1"
         path, query = (self.request.path or "/")[1:], self.request.query
         if path.endswith("/"):
@@ -54,6 +59,22 @@ class RequestHandler(tornado.web.RequestHandler):
         cookie = (cookie or random_id())
         self.set_secure_cookie("session-id", cookie)
         return cookie
+
+    def prepare_orm(self):
+        return sqlalchemy.orm.sessionmaker(bind=self.application.sql_engine)()
+
+    def prepare_session(self, orm):
+        session_id = self.get_session_id()
+        if session_id is not None:
+            session = orm.query(
+                xcvb.orm.session.Session).filter_by(
+                    session_id=session_id).first()
+            if session is None:
+                session = xcvb.orm.session.Session(
+                    session_id=session_id)
+                orm.add(session)
+                orm.commit()
+            return session
 
     def set_secure_cookie(self, name, value):
         expires_days = (
@@ -134,6 +155,8 @@ class Application(tornado.web.Application):
         self.config_path = config
         self.config = self.load_config(config)
         self.update_settings(self.config)
+        self.sql_engine = xcvb.orm.prepare(
+            self.config["database"]["postgres"])
 
     def load_config(self, filename):
         def update_recursive(target, update):

@@ -22,13 +22,14 @@ class EntryPointTest(xcvb.tests.TestCase):
     @unittest.mock.patch("xcvb.Application.load_config")
     @unittest.mock.patch("xcvb.__main__.configure_logging")
     @unittest.mock.patch("tornado.ioloop.IOLoop.current")
-    def test_main(self, current, configure, load_config, run):
+    def test_main(self, current, configure_logging, load_config, run):
         load_config.return_value = copy.deepcopy(self.config)
         load_config.return_value["security"]["cookie-secret"] = "insecure"
+        load_config.return_value["database"]["postgres"] = "sqlite:///:memory:"
         run.side_effect = KeyboardInterrupt()
         self.assertEqual(self.main([]), 1)
         run.assert_called_once_with()
-        configure.assert_called_once_with(False)
+        configure_logging.assert_called_once_with(False)
 
     @unittest.mock.patch("builtins.print")
     def test_invalid_argument(self, print):
