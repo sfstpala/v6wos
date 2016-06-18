@@ -26,6 +26,8 @@ bin/check-manifest: bin/pip
 bin/rst2xml.py: bin/pip
 	bin/pip install --upgrade docutils
 
+integration-test: all debug.yaml
+	bin/python -m xcvb.tests.integration debug.yaml
 debug: all debug.yaml
 	bin/$(package) --debug --config=debug.yaml
 debug.yaml:

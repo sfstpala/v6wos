@@ -15,6 +15,7 @@ setuptools.setup(
         "tornado==4.3",
         "pyyaml==3.11",
         "jsonschema==2.5.1",
+        "requests==2.10.0",
     ],
     entry_points={
         "console_scripts": [
@@ -23,6 +24,8 @@ setuptools.setup(
     },
     package_data={
         "xcvb": [
+            "tests/integration/index.md",
+            "tests/integration/error.md",
             "config/local.yaml",
             "config/debug.yaml",
             "templates/index.html",

@@ -6,6 +6,7 @@ source =
 
 [report]
 show_missing = True
+omit = xcvb/tests/integration/*
 exclude_lines =
     pragma: no cover
     if __name__ == .__main__.:
