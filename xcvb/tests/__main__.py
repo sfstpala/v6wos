@@ -25,7 +25,7 @@ class EntryPointTest(xcvb.tests.TestCase):
     def test_main(self, current, configure_logging, load_config, run):
         load_config.return_value = copy.deepcopy(self.config)
         load_config.return_value["security"]["cookie-secret"] = "insecure"
-        load_config.return_value["database"]["postgres"] = "sqlite:///:memory:"
+        load_config.return_value["database"]["uri"] = "sqlite:///:memory:"
         run.side_effect = KeyboardInterrupt()
         self.assertEqual(self.main([]), 1)
         run.assert_called_once_with()

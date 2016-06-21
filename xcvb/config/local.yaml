@@ -12,4 +12,4 @@ security:
 internal:
   hostname: null
 database:
-  postgres: null
+  uri: null

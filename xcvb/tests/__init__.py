@@ -31,7 +31,7 @@ class TestCase(tornado.testing.AsyncHTTPTestCase,
     def get_app(self, load_config):
         load_config.return_value = copy.deepcopy(self.config)
         load_config.return_value["security"]["cookie-secret"] = None
-        load_config.return_value["database"]["postgres"] = "sqlite:///:memory:"
+        load_config.return_value["database"]["uri"] = "sqlite:///:memory:"
         self.application = xcvb.Application(config=None, debug=True)
         return self.application
 

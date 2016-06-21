@@ -150,7 +150,7 @@ class Application(tornado.web.Application):
         self.config = self.load_config(config)
         self.update_settings(self.config)
         self.sql_engine = xcvb.orm.prepare(
-            self.config["database"]["postgres"])
+            self.config["database"]["uri"])
 
     def load_config(self, filename):
         def update_recursive(target, update):

@@ -12,4 +12,4 @@ security:
 internal:
   hostname: null
 database:
-  postgres: "sqlite:///debug.sqlite"
+  uri: "sqlite:///debug.sqlite"
