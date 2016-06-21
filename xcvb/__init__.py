@@ -4,7 +4,6 @@ import uuid
 import json
 import functools
 import traceback
-import base64
 import collections
 import http.client
 import pkg_resources
@@ -23,11 +22,6 @@ import xcvb.orm.session
 
 
 __version__ = pkg_resources.get_distribution(__package__).version
-
-
-def random_id(seed=None):
-    seed = seed or uuid.uuid4().bytes
-    return base64.urlsafe_b64encode(seed).decode().rstrip("=")
 
 
 class RequestHandler(tornado.web.RequestHandler):
@@ -56,7 +50,7 @@ class RequestHandler(tornado.web.RequestHandler):
     def get_session_id(self):
         cookie = self.get_secure_cookie("session-id") or None
         cookie = (cookie or b"").decode("ascii", errors="replace") or None
-        cookie = (cookie or random_id())
+        cookie = (cookie or xcvb.orm.session.Session.random_id())
         self.set_secure_cookie("session-id", cookie)
         return cookie
 
