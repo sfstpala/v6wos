@@ -1,6 +1,6 @@
 # Index
 
-    >>> res = requests.get("http://{}/api".format(host))
+    >>> res = get("/api")
     >>> res.status_code
     200
     >>> dump(res.json())

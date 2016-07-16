@@ -1,6 +1,6 @@
 # Error
 
-    >>> res = requests.get("http://{}/api/404".format(host))
+    >>> res = get("/api/404")
     >>> res.status_code
     404
     >>> dump(res.json())

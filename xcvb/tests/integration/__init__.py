@@ -59,5 +59,21 @@ def testfile(filename, server):
             "config": server.config,
             "requests": requests,
             "dump": dump,
+            "request": lambda method, path, **kw: requests.request(
+                method, "http://{}{}".format(server.host, path), **kw),
+            "get": lambda path, **kw: requests.get(
+                "http://{}{}".format(server.host, path), **kw),
+            "head": lambda path, **kw: requests.head(
+                "http://{}{}".format(server.host, path), **kw),
+            "put": lambda path, **kw: requests.put(
+                "http://{}{}".format(server.host, path), **kw),
+            "post": lambda path, **kw: requests.post(
+                "http://{}{}".format(server.host, path), **kw),
+            "delete": lambda path, **kw: requests.delete(
+                "http://{}{}".format(server.host, path), **kw),
+            "patch": lambda path, **kw: requests.patch(
+                "http://{}{}".format(server.host, path), **kw),
+            "options": lambda path, **kw: requests.options(
+                "http://{}{}".format(server.host, path), **kw),
         })
     return result
