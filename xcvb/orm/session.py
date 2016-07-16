@@ -1,5 +1,3 @@
-import base64
-import uuid
 import datetime
 import sqlalchemy
 import xcvb.orm
@@ -13,12 +11,6 @@ class Session(xcvb.orm.Model, xcvb.orm.Base):
         sqlalchemy.String, primary_key=True)
 
     session_id.type.length = 22
-
-    @staticmethod
-    def random_id(seed=None):
-        seed = seed or uuid.uuid4().bytes
-        return base64.urlsafe_b64encode(seed).decode().rstrip(
-            "=")[:xcvb.orm.session.Session.session_id.type.length]
 
     created_at = sqlalchemy.Column(
         sqlalchemy.DateTime,

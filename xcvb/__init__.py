@@ -17,6 +17,7 @@ import tornado.httpserver
 import tornado.httpclient
 import sqlalchemy
 import sqlalchemy.orm
+import xcvb.util
 import xcvb.orm
 import xcvb.orm.session
 
@@ -50,7 +51,8 @@ class RequestHandler(tornado.web.RequestHandler):
     def get_session_id(self):
         cookie = self.get_secure_cookie("session-id") or None
         cookie = (cookie or b"").decode("ascii", errors="replace") or None
-        cookie = (cookie or xcvb.orm.session.Session.random_id())
+        cookie = (cookie or xcvb.util.random_id(
+            length=xcvb.orm.session.Session.session_id.type.length))
         self.set_secure_cookie("session-id", cookie)
         return cookie
 
