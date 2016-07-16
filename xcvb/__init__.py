@@ -151,8 +151,11 @@ class Application(tornado.web.Application):
         self.config_path = config
         self.config = self.load_config(config)
         self.update_settings(self.config)
+        if not self.config["database"]["uri"]:
+            self.log.error("Database URI is not configured")
+            self.log.warn("Falling back to in-memory SQLite database")
         self.sql_engine = xcvb.orm.prepare(
-            self.config["database"]["uri"])
+            self.config["database"]["uri"] or "sqlite:///:memory:")
 
     def load_config(self, filename):
         def update_recursive(target, update):
