@@ -39,8 +39,7 @@ class RequestHandler(tornado.web.RequestHandler):
     def prepare(self):
         super().prepare()
         self.orm = self.prepare_orm()
-        self.request.session = self.prepare_session(self.orm)
-        self.request.dnt = self.request.headers.get("DNT", "0") == "1"
+        self.prepare_session(self.orm)
         path, query = (self.request.path or "/")[1:], self.request.query
         if path.endswith("/"):
             if self.request.method in ("GET", "HEAD", "OPTIONS"):
@@ -152,8 +151,10 @@ class Application(tornado.web.Application):
         self.config = self.load_config(config)
         self.update_settings(self.config)
         if not self.config["database"]["uri"]:
-            self.log.error("Database URI is not configured")
-            self.log.warn("Falling back to in-memory SQLite database")
+            self.log.error(
+                "Database URI is not configured")
+            self.log.warning(
+                "Falling back to in-memory SQLite database")
         self.sql_engine = xcvb.orm.prepare(
             self.config["database"]["uri"] or "sqlite:///:memory:")
 
