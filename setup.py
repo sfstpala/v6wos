@@ -12,7 +12,7 @@ setuptools.setup(
     zip_safe=False,
     install_requires=[
         "docopt==0.6.2",
-        "tornado==4.3",
+        "tornado==4.4",
         "pyyaml==3.11",
         "jsonschema==2.5.1",
         "requests==2.10.0",
