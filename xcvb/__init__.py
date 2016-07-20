@@ -39,7 +39,7 @@ class RequestHandler(tornado.web.RequestHandler):
     def prepare(self):
         super().prepare()
         self.orm = self.prepare_orm()
-        self.prepare_session(self.orm)
+        self.request.session = self.prepare_session(self.orm)
         path, query = (self.request.path or "/")[1:], self.request.query
         if path.endswith("/"):
             if self.request.method in ("GET", "HEAD", "OPTIONS"):
