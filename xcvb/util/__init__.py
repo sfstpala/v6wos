@@ -1,4 +1,3 @@
-import base64
 import uuid
 import os
 import shlex
@@ -6,9 +5,23 @@ import subprocess
 import functools
 
 
-def random_id(seed=None, length=22):
-    seed = seed or uuid.uuid4().bytes
-    return base64.urlsafe_b64encode(seed).decode().rstrip("=")[:length]
+def b32encode(n):
+    charset = "0123456789abcdefghjkmnpqrstvwxyz"
+    s = []
+    while n > 0:
+        r = n % 32
+        n //= 32
+        s.append(charset[r])
+    if len(s) > 0:
+        s.reverse()
+    else:
+        s.append('0')
+    return ''.join(s)
+
+
+def random_id():
+    return b32encode(int.from_bytes(
+        uuid.uuid4().bytes, "big")).ljust(26, "0")
 
 
 @functools.lru_cache()

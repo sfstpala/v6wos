@@ -50,8 +50,7 @@ class RequestHandler(tornado.web.RequestHandler):
     def get_session_id(self):
         cookie = self.get_secure_cookie("session-id") or None
         cookie = (cookie or b"").decode("ascii", errors="replace") or None
-        cookie = (cookie or xcvb.util.random_id(
-            length=xcvb.orm.session.Session.session_id.type.length))
+        cookie = (cookie or xcvb.util.random_id())
         self.set_secure_cookie("session-id", cookie)
         return cookie
 

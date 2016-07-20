@@ -8,8 +8,7 @@ class UtilTest(xcvb.tests.TestCase):
     @unittest.mock.patch("uuid.uuid4")
     def test_random_id(self, uuid4):
         uuid4.return_value.bytes = b"\x00" * 16
-        self.assertEqual(xcvb.util.random_id(length=22), "A" * 22)
-        self.assertEqual(xcvb.util.random_id(b"\x00", length=2), "AA")
+        self.assertEqual(xcvb.util.random_id(), "0" * 26)
 
     @unittest.mock.patch("subprocess.getstatusoutput")
     def test_get_git_revision(self, getstatusoutput):
