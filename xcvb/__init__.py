@@ -46,6 +46,9 @@ class RequestHandler(tornado.web.RequestHandler):
                 path = "/" + path[:-1] + (("?" + query) if query else "")
                 return self.redirect(path, permanent=True)
 
+    def on_finish(self):
+        self.orm.close() if hasattr(self, "orm") else ...
+
     @functools.lru_cache()
     def get_session_id(self):
         cookie = self.get_secure_cookie("session-id") or None
