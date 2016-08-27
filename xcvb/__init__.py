@@ -2,7 +2,6 @@ import os
 import copy
 import uuid
 import json
-import functools
 import traceback
 import collections
 import http.client
@@ -15,11 +14,6 @@ import tornado.util
 import tornado.autoreload
 import tornado.httpserver
 import tornado.httpclient
-import sqlalchemy
-import sqlalchemy.orm
-import xcvb.util
-import xcvb.orm
-import xcvb.orm.session
 
 
 __version__ = pkg_resources.get_distribution(__package__).version
@@ -38,51 +32,11 @@ class RequestHandler(tornado.web.RequestHandler):
 
     def prepare(self):
         super().prepare()
-        self.orm = self.prepare_orm()
-        self.request.session = self.prepare_session(self.orm)
         path, query = (self.request.path or "/")[1:], self.request.query
         if path.endswith("/"):
             if self.request.method in ("GET", "HEAD", "OPTIONS"):
                 path = "/" + path[:-1] + (("?" + query) if query else "")
                 return self.redirect(path, permanent=True)
-
-    def on_finish(self):
-        self.orm.close() if hasattr(self, "orm") else ...
-
-    @functools.lru_cache()
-    def get_session_id(self):
-        cookie = self.get_secure_cookie("session-id") or None
-        cookie = (cookie or b"").decode("ascii", errors="replace") or None
-        cookie = (cookie or xcvb.util.random_id())
-        self.set_secure_cookie("session-id", cookie)
-        return cookie
-
-    def prepare_orm(self):
-        return sqlalchemy.orm.sessionmaker(bind=self.application.sql_engine)()
-
-    def prepare_session(self, orm):
-        session_id = self.get_session_id()
-        if session_id is not None:
-            session = orm.query(
-                xcvb.orm.session.Session).filter_by(
-                    session_id=session_id).first()
-            if session is None:
-                session = xcvb.orm.session.Session(
-                    session_id=session_id)
-                orm.add(session)
-                orm.commit()
-            return session
-
-    def set_secure_cookie(self, name, value):
-        expires_days = (
-            self.application.config["security"]["cookie-expiry"])
-        super().set_secure_cookie(name, value, expires_days=expires_days)
-
-    def get_secure_cookie(self, name, value=None):
-        max_age_days = (
-            self.application.config["security"]["cookie-expiry"]) + 1
-        return super().get_secure_cookie(
-            name, value, max_age_days=max_age_days)
 
     def get_template_namespace(self):
         self.ui = self.ui or {}
@@ -152,13 +106,6 @@ class Application(tornado.web.Application):
         self.config_path = config
         self.config = self.load_config(config)
         self.update_settings(self.config)
-        if not self.config["database"]["uri"]:
-            self.log.error(
-                "Database URI is not configured")
-            self.log.warning(
-                "Falling back to in-memory SQLite database")
-        self.sql_engine = xcvb.orm.prepare(
-            self.config["database"]["uri"] or "sqlite:///:memory:")
 
     def load_config(self, filename):
         def update_recursive(target, update):

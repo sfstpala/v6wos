@@ -11,5 +11,3 @@ security:
   cookie-expiry: 30
 internal:
   hostname: null
-database:
-  uri: null
