@@ -15,7 +15,8 @@ setuptools.setup(
         "tornado==4.4.1",
         "pyyaml==3.11",
         "jsonschema==2.5.1",
-        "requests==2.10.0",
+        "requests==2.11.1",
+        "tornado-couchdb==0.3.0",
     ],
     entry_points={
         "console_scripts": [

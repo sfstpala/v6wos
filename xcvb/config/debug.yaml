@@ -11,3 +11,5 @@ security:
   cookie-expiry: 30
 internal:
   hostname: null
+couchdb:
+  url: http://localhost:5984/xcvb/
