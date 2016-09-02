@@ -13,7 +13,7 @@ setuptools.setup(
     install_requires=[
         "docopt==0.6.2",
         "tornado==4.4.1",
-        "pyyaml==3.11",
+        "pyyaml==3.12",
         "jsonschema==2.5.1",
         "requests==2.11.1",
         "tornado-couchdb==0.3.0",

@@ -1,5 +1,6 @@
 import sys
 import os
+import time
 import glob
 import pkg_resources
 import xcvb.tests.integration
@@ -18,6 +19,7 @@ def main(args):
             result = xcvb.tests.integration.testfile(filename, server)
             failed = failed or result.failed
     finally:
+        time.sleep(0.1)
         server.terminate()
     return 1 if failed else 0
 
