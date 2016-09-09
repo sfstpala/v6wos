@@ -2,13 +2,13 @@ import setuptools
 
 
 setuptools.setup(
-    name="xcvb", version="24.0.0",
+    name="v6wos", version="24.0.0",
     packages=setuptools.find_packages(),
     author="Stefano Palazzo",
     author_email="stefano.palazzo@gmail.com",
-    url="https://github.com/sfstpala/xcvb",
+    url="https://github.com/sfstpala/v6wos",
     license="ISC",
-    test_suite="xcvb.tests",
+    test_suite="v6wos.tests",
     zip_safe=False,
     install_requires=[
         "docopt==0.6.2",
@@ -20,11 +20,11 @@ setuptools.setup(
     ],
     entry_points={
         "console_scripts": [
-            "xcvb = xcvb.__main__:main",
+            "v6wos = v6wos.__main__:main",
         ]
     },
     package_data={
-        "xcvb": [
+        "v6wos": [
             "tests/integration/index.md",
             "tests/integration/error.md",
             "config/local.yaml",
@@ -33,6 +33,7 @@ setuptools.setup(
             "templates/error.html",
             "static/css/index.css",
             "static/script/env.js",
+            "resources/top100.txt",
         ],
     },
 )

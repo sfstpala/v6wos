@@ -1,12 +1,12 @@
 [run]
 branch = True
 source =
-    xcvb
+    v6wos
     setup.py
 
 [report]
 show_missing = True
-omit = xcvb/tests/integration/*
+omit = v6wos/tests/integration/*
 exclude_lines =
     pragma: no cover
     if __name__ == .__main__.:

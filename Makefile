@@ -1,5 +1,5 @@
 python ?= python3.5
-package = xcvb
+package = v6wos
 
 all: $(package).egg-info
 $(package).egg-info: setup.py bin/pip
@@ -27,11 +27,11 @@ bin/rst2xml.py: bin/pip
 	bin/pip install --upgrade docutils
 
 integration-test: all debug.yaml
-	bin/python -m xcvb.tests.integration debug.yaml
+	bin/python -m v6wos.tests.integration debug.yaml
 debug: all debug.yaml
 	bin/$(package) --debug --config=debug.yaml
 debug.yaml:
-	cp xcvb/config/debug.yaml .
+	cp v6wos/config/debug.yaml .
 
 clean:
 	rm -rf *.egg-info $(shell find $(package) -name "__pycache__")

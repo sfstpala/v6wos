@@ -1,1 +1,1 @@
-# xcvb.xyz
+# IPv6 Wall of Shame Application Server
