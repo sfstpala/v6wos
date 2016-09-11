@@ -11,6 +11,7 @@ security:
   cookie-expiry: 30
 internal:
   hostname: null
+  protocol: null
 dns:
   nameservers:
     - 8.8.8.8

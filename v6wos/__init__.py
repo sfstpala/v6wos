@@ -54,14 +54,17 @@ class RequestHandler(tornado.web.RequestHandler):
     @tornado.gen.coroutine
     def fetch(self, path, **kwargs):
         hostname = self.application.config["internal"]["hostname"]
+        protocol = self.application.config["internal"]["protocol"]
         default_headers = ["Cookie", "DNT"]
         kwargs["headers"] = kwargs.get("headers", {})
         kwargs["headers"].update(
             {k: self.request.headers.get(k) for k in default_headers})
         kwargs["headers"] = {k: v for k, v in kwargs["headers"].items() if v}
         kwargs["raise_error"] = kwargs.get("raise_error", False)
-        url = self.request.protocol + "://" + (hostname or self.request.host)
-        url = url + "/" + path.lstrip("/")
+        url = "{}://{}/{}".format(
+            protocol or self.request.protocol,
+            hostname or self.request.host,
+            path.lstrip("/"))
         response = yield self.get_http_client().fetch(url, **kwargs)
         try:
             response.json = json.loads((response.body or b"").decode())

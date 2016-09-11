@@ -34,7 +34,7 @@ class Server(multiprocessing.Process):
         exception = None
         for i in range(50):
             try:
-                requests.get("http://{}/".format(self.host))
+                requests.get("http://{}/api".format(self.host))
             except Exception as e:
                 time.sleep(0.1)
                 exception = e
