@@ -16,6 +16,10 @@ header {
 header h1 {
     font-size: 28pt;
 }
+header h1 a:link, header h1 a:visited {
+    color: inherit;
+    text-decoration: inherit;
+}
 main {
     text-align: center;
 }
