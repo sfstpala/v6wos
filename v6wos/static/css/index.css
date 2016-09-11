@@ -42,7 +42,6 @@ main ul.wall li {
     text-align: center;
     padding: 8pt 0;
     margin: 0;
-    box-shadow: inset 0 0 1pt rgba(0, 0, 0, 0.1);
 }
 main ul.wall li.pass {
     background: #4c4;
