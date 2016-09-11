@@ -10,3 +10,49 @@ pre, tt, code, kbd, samp {
     font-family: "Inconsolata", monospace;
     font-size: 14px;
 }
+header {
+    text-align: center;
+}
+main {
+    text-align: center;
+}
+main a:link, main a:visited {
+    color: inherit;
+}
+main p {
+    max-width: 480pt;
+    margin: 0 auto 24pt auto;
+}
+main ul.wall {
+    list-style: none;
+    padding: 0;
+    margin: 24pt auto;
+    width: 80%;
+    max-width: 250pt;
+}
+main ul.wall li {
+    background: #ccc;
+    text-align: center;
+    padding: 8pt 0;
+    margin: 0;
+    box-shadow: inset 0 0 1pt rgba(0, 0, 0, 0.1);
+}
+main ul.wall li.pass {
+    background: #4c4;
+}
+main ul.wall li.fail {
+    background: #c44;
+}
+main nav {
+    padding: 24pt 0 36pt 0;
+    list-style: none;
+}
+main nav ul {
+    display: none;
+}
+main aside {
+    color: #888;
+    font-size: smaller;
+    max-width: 560pt;
+    margin: 48pt auto 0 auto;
+}

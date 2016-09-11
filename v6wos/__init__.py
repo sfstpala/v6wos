@@ -79,6 +79,8 @@ class Application(tornado.web.Application):
     handlers = [
         (r"/?", tornado.util.import_object(
             "v6wos.index.IndexHandler")),
+        (r"/fail/?", tornado.util.import_object(
+            "v6wos.index.IndexHandler")),
         (r"/api/?", tornado.util.import_object(
             "v6wos.api.index.IndexHandler")),
         (r"/api/hosts/?", tornado.util.import_object(

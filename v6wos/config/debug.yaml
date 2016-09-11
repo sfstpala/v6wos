@@ -11,5 +11,9 @@ security:
   cookie-expiry: 30
 internal:
   hostname: null
+dns:
+  nameservers:
+    - 8.8.8.8
+    - 8.8.4.4
 couchdb:
   url: http://localhost:5984/v6wos/
