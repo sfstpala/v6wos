@@ -17,6 +17,7 @@ setuptools.setup(
         "jsonschema==2.5.1",
         "requests==2.11.1",
         "tornado-couchdb==0.3.0",
+        "dnspython==1.14.0",
     ],
     entry_points={
         "console_scripts": [
@@ -26,6 +27,7 @@ setuptools.setup(
     package_data={
         "v6wos": [
             "tests/integration/index.md",
+            "tests/integration/hosts.md",
             "tests/integration/error.md",
             "config/local.yaml",
             "config/debug.yaml",

@@ -14,5 +14,8 @@
   <header>
     <h1>IPv6 Wall of Shame</h1>
   </header>
-  <main>{% block main %}{% end block %}</main>
+  <main>{% block main %}
+    <h2>Hosts</h2>
+    <pre><code>{% import json %}{{ json.dumps(hosts, indent=4) }}
+    {% end block %}</main>
 </html>

@@ -81,6 +81,10 @@ class Application(tornado.web.Application):
             "v6wos.index.IndexHandler")),
         (r"/api/?", tornado.util.import_object(
             "v6wos.api.index.IndexHandler")),
+        (r"/api/hosts/?", tornado.util.import_object(
+            "v6wos.api.hosts.HostsHandler")),
+        (r"/api/hosts/([^/]+)/?", tornado.util.import_object(
+            "v6wos.api.hosts.HostsDetailHandler")),
         (r"/api/.*?", tornado.util.import_object(
             "v6wos.api.error.ErrorHandler")),
         (r".*", tornado.util.import_object(
@@ -96,6 +100,8 @@ class Application(tornado.web.Application):
             "v6wos", "static"),
         "xsrf_cookies": True,
     }
+
+    hosts_cache = {}
 
     with open(pkg_resources.resource_filename(
             "v6wos", "config/local.yaml")) as f:
