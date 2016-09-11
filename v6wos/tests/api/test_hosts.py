@@ -19,12 +19,18 @@ class HostsDetailHandlerTest(v6wos.tests.api.TestCase):
 
     @unittest.mock.patch("v6wos.util.lookup.check_aaaa")
     def test_get(self, check_aaaa):
-        check_aaaa.return_value = ["2606:2800:220:1:248:1893:25c8:1946"]
-        res = self.fetch("/api/hosts/example.com")
+        check_aaaa.return_value = ["2a00:1450:4001:810::200e"]
+        res = self.fetch("/api/hosts/google.com")
         self.assertEqual(res.code, 200)
         self.assertEqual(res.json, {
             "aaaa": [
-                "2606:2800:220:1:248:1893:25c8:1946",
+                "2a00:1450:4001:810::200e",
             ],
-            "host": "example.com",
+            "host": "google.com",
         })
+
+    @unittest.mock.patch("v6wos.util.lookup.check_aaaa")
+    def test_get_not_found(self, check_aaaa):
+        check_aaaa.return_value = ["2606:2800:220:1:248:1893:25c8:1946"]
+        res = self.fetch("/api/hosts/example.com")
+        self.assertEqual(res.code, 404)

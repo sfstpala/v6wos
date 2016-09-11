@@ -24,3 +24,7 @@ they have an AAAA record:
         ],
         "host": "google.com"
     }
+
+    >>> res = get("/api/hosts/example.com")
+    >>> res.status_code
+    404
