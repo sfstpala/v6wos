@@ -18,7 +18,7 @@
   <main>{% block main %}
     <h2>{{ "{:.0%}".format(1 - (len([i for i in hosts if i["aaaa"]]) / len(hosts))) }} of the top {{ len(hosts) }} websites don't support IPv6 yet</h2>
     <nav>
-      <li><a target=_blank href="https://twitter.com/intent/tweet?url=https://ipv6wallofshame.com/{{ 'fail' if request.path.endswith('/fail') else '' }}&text={{ "{:.0f}".format((1 - (len([i for i in hosts if i["aaaa"]]) / len(hosts))) * 100) }}%25+of+the+top+{{ len(hosts) }}+websites+don%27t+support+%23IPv6+yet;"><i class="fa fa-twitter"></i> Tweet this</a></li>
+      <li><a target=_blank href="https://twitter.com/intent/tweet?url=https://ipv6wallofshame.com/{{ 'fail' if request.path.endswith('/fail') else '' }}&text={{ "{:.0f}".format((1 - (len([i for i in hosts if i["aaaa"]]) / len(hosts))) * 100) }}%25+of+the+top+{{ len(hosts) }}+websites+don%27t+support+%23IPv6+yet.;"><i class="fa fa-twitter"></i> Tweet this</a></li>
     </nav>
     <ul class="wall">
       {% for i in hosts %}
