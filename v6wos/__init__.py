@@ -58,6 +58,7 @@ class RequestHandler(tornado.web.RequestHandler):
         kwargs["headers"] = kwargs.get("headers", {})
         kwargs["headers"].update(
             {k: self.request.headers.get(k) for k in default_headers})
+        kwargs["headers"] = {k: v for k, v in kwargs["headers"].items() if v}
         kwargs["raise_error"] = kwargs.get("raise_error", False)
         url = self.request.protocol + "://" + (hostname or self.request.host)
         url = url + "/" + path.lstrip("/")
