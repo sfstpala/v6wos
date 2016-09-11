@@ -1,6 +1,6 @@
 bind:
   addr: localhost
-  port: 4000
+  port: 3210
 http:
   max-clients: 800
   req-timeout: 120
