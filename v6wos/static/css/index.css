@@ -47,11 +47,18 @@ main ul.wall li.fail {
     background: #c44;
 }
 main nav {
-    padding: 24pt 0 36pt 0;
     list-style: none;
+    margin-bottom: 18pt;
 }
-main nav ul {
-    display: none;
+main nav li a:link, main nav li a:visited {
+    text-decoration: inherit;
+    font-weight: bold;
+    display: inline-block;
+    margin: 12pt 0;
+}
+main nav li a i.fa {
+    margin-right: 4pt;
+    margin-left: -8pt;
 }
 main aside {
     color: #888;
