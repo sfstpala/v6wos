@@ -13,6 +13,9 @@ pre, tt, code, kbd, samp {
 header {
     text-align: center;
 }
+header h1 {
+    font-size: 28pt;
+}
 main {
     text-align: center;
 }
