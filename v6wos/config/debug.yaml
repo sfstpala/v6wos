@@ -12,6 +12,8 @@ security:
 internal:
   hostname: null
   protocol: null
+google-analytics:
+  tracking-id: null
 dns:
   nameservers:
     - 8.8.8.8

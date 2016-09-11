@@ -43,6 +43,7 @@ class RequestHandler(tornado.web.RequestHandler):
         namespace = super().get_template_namespace() or {}
         namespace.update({
             "debug": self.application.settings["debug"],
+            "config": self.application.config,
             "service": __name__,
             "version": __version__,
         })
