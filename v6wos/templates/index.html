@@ -4,8 +4,6 @@
     <meta charset="utf-8">
     <meta name=viewport content="width=device-width, initial-scale=1">
     <title>{% block title %}{% end block %}IPv6 Wall of Shame</title>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
-    <script src="{{ static_url('script/env.js') }}"></script>
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700">
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Inconsolata:400,700">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/4.0.0/normalize.min.css">
@@ -53,6 +51,8 @@
     </section>
     {% end block %}</main>
   {% if config["google-analytics"].get("tracking-id") %}
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+  <script src="{{ static_url('script/env.js') }}"></script>
   <script>
    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
