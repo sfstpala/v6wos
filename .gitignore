@@ -6,6 +6,7 @@ __pycache__
 /lib
 /lib64
 /include
+/share
 /pip-selfcheck.json
 /pyvenv.cfg
 /htmlcov
