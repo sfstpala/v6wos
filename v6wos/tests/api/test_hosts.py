@@ -1,5 +1,4 @@
 import unittest.mock
-import pkg_resources
 import v6wos
 import v6wos.tests.api
 
@@ -7,9 +6,7 @@ import v6wos.tests.api
 class HostsHandlerTest(v6wos.tests.api.TestCase):
 
     def test_get(self):
-        with open(pkg_resources.resource_filename(
-                "v6wos", "resources/top100.txt")) as f:
-            hosts = [i.strip() for i in f.readlines() if i.strip()]
+        hosts = self.application.hosts_cache.get_hosts()
         res = self.fetch("/api/hosts")
         self.assertEqual(res.code, 200)
         self.assertEqual(res.json, {"hosts": hosts})

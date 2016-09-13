@@ -20,9 +20,10 @@ class EntryPointTest(v6wos.tests.TestCase):
 
     @unittest.mock.patch("v6wos.HTTPServer.run")
     @unittest.mock.patch("v6wos.Application.load_config")
+    @unittest.mock.patch("v6wos.util.cache.HostsCache.warmup")
     @unittest.mock.patch("v6wos.__main__.configure_logging")
     @unittest.mock.patch("tornado.ioloop.IOLoop.current")
-    def test_main(self, current, configure_logging, load_config, run):
+    def test_main(self, current, configure_logging, warmup, load_config, run):
         load_config.return_value = copy.deepcopy(self.config)
         load_config.return_value["security"]["cookie-secret"] = "insecure"
         run.side_effect = KeyboardInterrupt()

@@ -42,7 +42,8 @@ class TestApplication(v6wos.Application):
 class HandlerTest(TestCase):
 
     @unittest.mock.patch("v6wos.Application.load_config")
-    def get_app(self, load_config):
+    @unittest.mock.patch("v6wos.util.cache.HostsCache.warmup")
+    def get_app(self, warmup, load_config):
         load_config.return_value = self.config
         self.application = TestApplication(config=None, debug=True)
         return self.application

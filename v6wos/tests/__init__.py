@@ -21,7 +21,8 @@ class TestCase(tornado.testing.AsyncHTTPTestCase,
     config = v6wos.Application.default_config
 
     @unittest.mock.patch("v6wos.Application.load_config")
-    def get_app(self, load_config):
+    @unittest.mock.patch("v6wos.util.cache.HostsCache.warmup")
+    def get_app(self, warmup, load_config):
         load_config.return_value = copy.deepcopy(self.config)
         load_config.return_value["security"]["cookie-secret"] = None
         self.application = v6wos.Application(config=None, debug=True)
@@ -66,7 +67,8 @@ class ApplicationTest(TestCase):
 class HTTPServerTest(TestCase):
 
     @unittest.mock.patch("tornado.httpserver.HTTPServer.bind")
-    def test_bind(self, bind):
+    @unittest.mock.patch("v6wos.util.cache.HostsCache.warmup")
+    def test_bind(self, warmup, bind):
         server = v6wos.HTTPServer(self.application)
         server.bind()
         bind.assert_called_once_with(
@@ -113,7 +115,8 @@ class TestApplication(v6wos.Application):
 class HandlerTest(TestCase):
 
     @unittest.mock.patch("v6wos.Application.load_config")
-    def get_app(self, load_config):
+    @unittest.mock.patch("v6wos.util.cache.HostsCache.warmup")
+    def get_app(self, warmup, load_config):
         load_config.return_value = self.config
         load_config.return_value["security"]["cookie-secret"] = "insecure"
         self.application = TestApplication(config=None, debug=True)
