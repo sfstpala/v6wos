@@ -13,4 +13,3 @@ __pycache__
 /.coverage
 /wheelhouse
 /debug.yaml
-/debug.sqlite
