@@ -2,3 +2,5 @@ include README.md
 include COPYING
 include Makefile
 include .coveragerc
+include tox.ini
+include .travis.yml

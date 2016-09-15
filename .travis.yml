@@ -1,0 +1,11 @@
+language: python
+sudo: false
+python: 3.5
+env:
+  - TOX_ENV=py35
+install:
+  - pip install tox coveralls
+script:
+  - tox -e $TOX_ENV
+after_success:
+  coveralls
