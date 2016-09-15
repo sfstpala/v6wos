@@ -1,0 +1,10 @@
+_id: _design/hosts
+language: javascript
+views:
+  by_name:
+    map: |
+      function (doc) {
+        if (doc.type == "host") {
+          emit(doc.host.name, doc);
+        }
+      }

@@ -1,27 +1,19 @@
-import tornado.web
+import tornado.gen
 import v6wos.api
-import v6wos.util.lookup
+import v6wos.model.hosts
 
 
 class HostsHandler(v6wos.api.RequestHandler):
 
-    def get(self):
-        hosts = self.application.hosts_cache.get_hosts()
-        self.write({
-            "hosts": hosts,
-        })
+    def prepare(self):
+        self.model = v6wos.model.hosts.Hosts(self.application)
 
-
-class HostsDetailHandler(v6wos.api.RequestHandler):
-
-    def get(self, host):
-        nameservers = self.application.config["dns"]["nameservers"]
-        hosts = self.application.hosts_cache.get_hosts()
-        if host not in hosts:
+    @tornado.gen.coroutine
+    def get(self, name=None):
+        if name is not None and name in self.model.all_hosts:
+            return self.write((yield self.model.put(name)))
+        if name is not None:
             raise tornado.web.HTTPError(404)
-        self.application.hosts_cache[host] = {
-            "host": host,
-            "aaaa": v6wos.util.lookup.check_aaaa(
-                host, nameservers=nameservers),
-        }
-        self.write(self.application.hosts_cache[host])
+        self.write({
+            "hosts": (yield self.model.get()),
+        })

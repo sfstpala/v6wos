@@ -13,6 +13,7 @@ class Base:
     def __init__(self, application):
         if Base.__dict__.get("couch") is None:
             Base.couch = initialize(application.config["couchdb"]["url"])
+        self.application = application
 
 
 def upload_docs(path, blocking_couch):

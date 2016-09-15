@@ -23,12 +23,12 @@
       {% if i["aaaa"] %}
       {% if not request.path.endswith("/fail") %}
       <li class="pass">
-        {{ i["host"].lower() }}
+        {{ i["name"].lower() }}
       </li>
       {% end if %}
       {% else %}
       <li class="fail">
-        {{ i["host"].lower() }}
+        {{ i["name"].lower() }}
       </li>
       {% end if %}
       {% end for %}

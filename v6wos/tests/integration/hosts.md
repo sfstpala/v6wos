@@ -9,7 +9,12 @@ they have an AAAA record:
     >>> dump(res.json())
     {
         "hosts": [
-            "google.com",
+            {
+                "aaaa": [
+                    ...
+                ],
+                "name": "google.com"
+            },
             ...
         ]
     }
@@ -22,7 +27,7 @@ they have an AAAA record:
         "aaaa": [
             ...
         ],
-        "host": "google.com"
+        "name": "google.com"
     }
 
     >>> res = get("/api/hosts/example.com")

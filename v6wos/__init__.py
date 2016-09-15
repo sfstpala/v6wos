@@ -91,7 +91,7 @@ class Application(tornado.web.Application):
         (r"/api/hosts/?", tornado.util.import_object(
             "v6wos.api.hosts.HostsHandler")),
         (r"/api/hosts/([^/]+)/?", tornado.util.import_object(
-            "v6wos.api.hosts.HostsDetailHandler")),
+            "v6wos.api.hosts.HostsHandler")),
         (r"/api/.*?", tornado.util.import_object(
             "v6wos.api.error.ErrorHandler")),
         (r".*", tornado.util.import_object(
@@ -107,9 +107,6 @@ class Application(tornado.web.Application):
             "v6wos", "static"),
         "xsrf_cookies": True,
     }
-
-    hosts_cache = tornado.util.import_object(
-        "v6wos.util.cache.HostsCache")()
 
     with open(pkg_resources.resource_filename(
             "v6wos", "config/local.yaml")) as f:
@@ -168,8 +165,6 @@ class HTTPServer(tornado.httpserver.HTTPServer):
             body_timeout=timeout)
 
     def bind(self):
-        self.application.hosts_cache.warmup(
-            self.application.config["dns"]["nameservers"])
         port = self.application.config["bind"]["port"]
         address = self.application.config["bind"]["addr"] or None
         backlog = self.application.config["http"]["tcp-backlog"]
