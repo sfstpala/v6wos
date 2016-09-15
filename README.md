@@ -5,13 +5,10 @@
 
 ## Prerequisites
 
- - CouchDB
+ - CouchDB 1.6.1
  - Python 3.5
 
-To run unit tests, type `make test`.
-
-To set up a testing environment, run `make integration-test` and `make debug`.
-CouchDB needs to be running. (see `debug.yaml`)
+To run unit tests, type `make test`. To set up a testing environment, run `make integration-test` and `make debug`. CouchDB needs to be running. (see `debug.yaml`)
 
 ## Copyright notice
 
