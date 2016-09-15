@@ -1,4 +1,4 @@
-# IPv6 Wall of Shame
+# [IPv6 Wall of Shame](https://ipv6wallofshame.com/)
 
 [![Build](https://img.shields.io/travis/sfstpala/v6wos.svg?style=flat-square)](https://travis-ci.org/sfstpala/v6wos)
 [![Coverage](https://img.shields.io/coveralls/sfstpala/v6wos.svg?style=flat-square)](https://coveralls.io/r/sfstpala/v6wos)
