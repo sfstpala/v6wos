@@ -77,6 +77,33 @@ main nav li a i.fa {
 main aside {
     color: #888;
     font-size: smaller;
-    max-width: 560pt;
+    max-width: 420pt;
     margin: 48pt auto 0 auto;
+    text-align: justify;
+}
+footer {
+    color: #888;
+    font-size: smaller;
+    max-width: 500pt;
+    margin: 24pt auto 24pt auto;
+}
+footer nav {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    text-align: center;
+}
+footer nav li {
+    display: inline-block;
+}
+footer nav li:before {
+    content: '\2043';
+    display: inline-block;
+    margin: 0 6pt 0 4pt;
+}
+footer nav li:first-child:before {
+    content: '';
+}
+footer nav li a:link, footer nav li a:visited {
+    color: inherit;
 }
