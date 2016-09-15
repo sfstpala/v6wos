@@ -14,6 +14,10 @@ class IndexHandlerTest(v6wos.tests.TestCase):
                         "aaaa": [
                             "2606:2800:220:1:248:1893:25c8:1946",
                         ],
+                        "glue": [
+                            "2001:500:8f::53",
+                            "2001:500:8d::53"
+                        ],
                         "name": "example.com",
                     },
                 ],

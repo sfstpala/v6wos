@@ -20,30 +20,35 @@
     </nav>
     <ul class="wall">
       {% for i in hosts %}
-      {% if i["aaaa"] %}
-      {% if not request.path.endswith("/fail") %}
-      <li class="pass">
+      {% if not i["aaaa"] or not request.path.endswith("/fail") %}
+      {% if not i["glue"] or not request.path.endswith("/glue") %}
+      <li class="{{ ('glue' if request.path.endswith("/glue") else 'pass') if i['aaaa'] else 'fail' }}">
         {{ i["name"].lower() }}
       </li>
       {% end if %}
-      {% else %}
-      <li class="fail">
-        {{ i["name"].lower() }}
-      </li>
       {% end if %}
       {% end for %}
     </ul>
     <section>
-      <nav>
-        {% if not request.path.endswith("/fail") %}
-        <li><a href="/fail">Show fails only</a></li>
-        {% else %}
-        <li><a href="/">Show all</a></li>
+      <p>
+        The websites shown in red do not provide an AAAA record.
+        {% if request.path.endswith("/glue") %}
+        <br>The websites shown in yellow have no IPv6 nameservers. ({{ "{:.0%}".format(len([i for i in hosts if i["aaaa"] and not i["glue"]]) / len([i for i in hosts if i["aaaa"]])) }} of IPv6 enabled sites)
         {% end if %}
-      </nav>
+      </p>
     </section>
     <section>
-      <p>The websites shown in red do not provide an AAAA record.</p>
+      <nav>
+        {% if not request.path.endswith("/") %}
+        <li><a href="/">Show all</a></li>
+        {% end if %}
+        {% if not request.path.endswith("/fail") %}
+        <li><a href="/fail">Show domains that don't have an AAAA record</a></li>
+        {% end if %}
+        {% if not request.path.endswith("/glue") %}
+        <li><a href="/glue">Show domains that don't have IPv6 nameservers</a></li>
+        {% end if %}
+      </nav>
     </section>
     <section>
       <aside>This website was made by <a target=_blank href="https://palazzo.link/">Stefano Palazzo</a>, Copyright 2016. The list of websites was retrieved from <a target=_blank href="https://en.wikipedia.org/wiki/List_of_most_popular_websites">"List of most popular websites."</a> Wikipedia: The Free Encyclopedia. Wikimedia Foundation, Inc. 10 September 2016. Web. 10 Sep. 2016, under the terms of the <a target=_blank href="https://en.wikipedia.org/wiki/Wikipedia:Text_of_Creative_Commons_Attribution-ShareAlike_3.0_Unported_License">Creative Commons Attribution-ShareAlike License</a>; additional terms may apply. The content is updated periodically; allthough I take care to ensure the correctness of the information published here, no warranty can be accepted regarding correctness, currentness, completeness, or reliability of the content.<br>

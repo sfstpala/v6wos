@@ -86,6 +86,8 @@ class Application(tornado.web.Application):
             "v6wos.index.IndexHandler")),
         (r"/fail/?", tornado.util.import_object(
             "v6wos.index.IndexHandler")),
+        (r"/glue/?", tornado.util.import_object(
+            "v6wos.index.IndexHandler")),
         (r"/api/?", tornado.util.import_object(
             "v6wos.api.index.IndexHandler")),
         (r"/api/hosts/?", tornado.util.import_object(
