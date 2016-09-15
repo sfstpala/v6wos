@@ -10,9 +10,8 @@ they have an AAAA record:
     {
         "hosts": [
             {
-                "aaaa": [
-                    ...
-                ],
+                "aaaa": [...],
+                "glue": [...],
                 "name": "google.com"
             },
             ...
@@ -24,9 +23,8 @@ they have an AAAA record:
     200
     >>> dump(res.json())
     {
-        "aaaa": [
-            ...
-        ],
+        "aaaa": [...],
+        "glue": [...],
         "name": "google.com"
     }
 

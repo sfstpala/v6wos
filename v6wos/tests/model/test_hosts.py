@@ -63,11 +63,13 @@ class HostsTest(v6wos.tests.TestCase):
     @unittest.mock.patch("couch.AsyncCouch.view")
     @unittest.mock.patch("couch.AsyncCouch.save_doc")
     @unittest.mock.patch("v6wos.util.lookup.check_aaaa")
+    @unittest.mock.patch("v6wos.util.lookup.check_glue")
     @tornado.testing.gen_test
-    def test_put(self, check_aaaa, save_doc, view):
+    def test_put(self, check_glue, check_aaaa, save_doc, view):
         check_aaaa.return_value = [
             "2a00:1450:4001:817::200e",
         ]
+        check_glue.return_value = []
         save_doc.return_value = v6wos.tests.future()
         view.return_value = v6wos.tests.future({
             "rows": [
@@ -77,6 +79,7 @@ class HostsTest(v6wos.tests.TestCase):
                         "_rev": "100-1",
                         "host": {
                             "aaaa": [],
+                            "glue": [],
                             "name": "google.com",
                         },
                         "type": "host",
@@ -90,6 +93,7 @@ class HostsTest(v6wos.tests.TestCase):
             "aaaa": [
                 "2a00:1450:4001:817::200e",
             ],
+            "glue": [],
             "name": "google.com",
         })
         save_doc.assert_called_once_with({
@@ -99,6 +103,7 @@ class HostsTest(v6wos.tests.TestCase):
                 "aaaa": [
                     "2a00:1450:4001:817::200e",
                 ],
+                "glue": [],
                 "name": "google.com",
             },
             "type": "host",

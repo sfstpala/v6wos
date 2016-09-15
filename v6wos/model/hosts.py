@@ -33,6 +33,8 @@ class Hosts(v6wos.model.Base):
                 "name": name,
                 "aaaa": v6wos.util.lookup.check_aaaa(
                     name, nameservers=nameservers),
+                "glue": v6wos.util.lookup.check_glue(
+                    name, nameservers=nameservers),
             },
             "type": "host",
         })
