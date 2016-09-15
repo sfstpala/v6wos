@@ -43,12 +43,12 @@ google.es
 wordpress.com
 gmw.cn
 tumblr.com
-PayPal.com
+paypal.com
 blogspot.com
 imgur.com
 stackoverflow.com
 aliexpress.com
-Naver.com
+naver.com
 ok.ru
 apple.com
 github.com
@@ -114,7 +114,7 @@ uol.com.br
 avito.ru
 google.com.co
 redtube.com
-google.co.th
+google.com.vn
 google.com.ph
 doubleclick.net
 onet.pl
