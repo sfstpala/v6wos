@@ -12,7 +12,7 @@ def check_aaaa(host, nameservers=None):
     resolver = dns.resolver.Resolver()
     resolver.nameservers = nameservers
     try:
-        return [i.address.decode() for i in resolver.query(host, 'AAAA')]
+        return [i.address for i in resolver.query(host, 'AAAA')]
     except dns.exception.DNSException:
         return []
 

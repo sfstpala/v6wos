@@ -12,12 +12,12 @@ setuptools.setup(
     zip_safe=False,
     install_requires=[
         "docopt==0.6.2",
-        "tornado==4.4.1",
+        "tornado==4.4.2",
         "pyyaml==3.12",
-        "jsonschema==2.5.1",
-        "requests==2.11.1",
+        "jsonschema==2.6.0",
+        "requests==2.13.0",
         "tornado-couchdb==0.3.0",
-        "dnspython==1.14.0",
+        "dnspython==1.15.0",
     ],
     entry_points={
         "console_scripts": [

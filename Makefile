@@ -1,4 +1,4 @@
-python ?= python3.5
+python ?= python3.6
 package = v6wos
 
 all: $(package).egg-info
@@ -16,7 +16,7 @@ test: all bin/coverage bin/pylama bin/check-manifest bin/rst2xml.py
 	bin/pylama setup.py $(package)
 	bin/check-manifest || ! test -d .git
 	bin/python setup.py check -mrs
-	bin/pip list --outdated
+	bin/pip list --format=legacy --outdated
 bin/coverage: bin/pip
 	bin/pip install --upgrade coverage
 bin/pylama: bin/pip
@@ -36,4 +36,4 @@ debug.yaml:
 clean:
 	rm -rf *.egg-info $(shell find $(package) -name "__pycache__")
 	rm -rf bin lib lib64 include pip-selfcheck.json pyvenv.cfg
-	rm -rf build dist wheelhouse .coverage htmlcov
+	rm -rf build dist wheelhouse .coverage htmlcov .tox

@@ -1,8 +1,6 @@
 [run]
 branch = True
-source =
-    v6wos
-    setup.py
+source = v6wos
 
 [report]
 show_missing = True
