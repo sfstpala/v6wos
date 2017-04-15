@@ -20,8 +20,13 @@ class Hosts(v6wos.model.Base):
         for i in [doc["name"] for doc in res]:
             if i not in self.all_hosts:
                 yield self.delete(i)
-        res = [i for i in res if i["name"] in self.all_hosts]
-        return list(sorted(res, key=lambda i: self.all_hosts.index(i["name"])))
+        dup = set()
+        res = [i for i in res
+               if i["name"] in self.all_hosts
+               and i["name"] not in dup
+               and not dup.add(i["name"])]
+        res = list(sorted(res, key=lambda i: self.all_hosts.index(i["name"])))
+        return res
 
     @tornado.gen.coroutine
     def put(self, name):
