@@ -54,7 +54,7 @@ amazon.co.jp
 ok.ru
 google.com.mx
 apple.com
-Naver.com
+naver.com
 mail.ru
 imdb.com
 popads.net
