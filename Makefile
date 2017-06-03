@@ -5,7 +5,7 @@ all: $(package).egg-info
 $(package).egg-info: setup.py bin/pip
 	bin/pip install --editable . && touch $@
 bin/pip: bin/python
-	bin/python -m pip install --force pip wheel
+	bin/python -m pip install -I pip wheel
 bin/python:
 	$(python) -m venv .
 
