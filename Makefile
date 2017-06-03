@@ -3,11 +3,11 @@ package = v6wos
 
 all: $(package).egg-info
 $(package).egg-info: setup.py bin/pip
-	bin/python -m pip install --editable . && touch $@
+	bin/pip install --editable . && touch $@
 bin/pip: bin/python
-	curl https://bootstrap.pypa.io/get-pip.py | bin/python
+	bin/python -m pip install --force pip wheel
 bin/python:
-	$(python) -m venv . --without-pip
+	$(python) -m venv .
 
 test: all bin/coverage bin/pylama bin/check-manifest bin/rst2xml.py
 	bin/coverage run setup.py test
