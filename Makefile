@@ -1,4 +1,4 @@
-python ?= python3.6
+python ?= python3.7
 package = v6wos
 
 all: $(package).egg-info
@@ -16,7 +16,7 @@ test: all bin/coverage bin/pylama bin/check-manifest bin/rst2xml.py
 	bin/pylama setup.py $(package)
 	bin/check-manifest || ! test -d .git
 	bin/python setup.py check -mrs
-	bin/pip list --format=legacy --outdated
+	bin/pip list --outdated
 bin/coverage: bin/pip
 	bin/pip install --upgrade coverage
 bin/pylama: bin/pip
